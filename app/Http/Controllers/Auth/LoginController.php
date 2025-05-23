@@ -37,4 +37,9 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+    protected function authenticated($request, $user)
+    {
+        return redirect('/')->with('login_success', '¡Bienvenido/a, has iniciado sesión correctamente!');
+    }
+
 }
