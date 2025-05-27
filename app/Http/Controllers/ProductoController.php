@@ -12,10 +12,12 @@ class ProductoController extends Controller
     {
         $this->middleware('auth')->except(['index', 'show']);
     }
-    public function index()
+    
+     public function index()
     {
-        $productos = Producto::with('categoria')->get(); // Obtener todos los productos con la relación de categoría
-        return view('productos.index', compact('productos'));
+    $productos = Producto::with('categoria')->get();
+    $categorias = Categoria::all();
+    return view('productos.index', compact('productos', 'categorias'));
     }
 
 

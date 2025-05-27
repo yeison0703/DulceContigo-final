@@ -123,10 +123,6 @@
                     </div>
                 @endif
             </form>
-            <div class="register-link">
-                ¿No tienes usuario?
-                <a href="{{ route('register') }}">Regístrate</a>
-            </div>
         </div>
     </div>
 </div>

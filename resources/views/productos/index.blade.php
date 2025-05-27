@@ -4,7 +4,7 @@
 <div class="container">
     <h1 style="text-align: center">Lista de Productos</h1>
     @auth
-        <a href="{{ route('productos.create') }}" class="btn btn-outline-dark mb-3">Agregar Nuevo Producto</a>
+        <a href="{{ route('productos.create') }}" class="btn btn-outline-dark mb-3" style="font-weight:600; border-radius: 1.5rem;"><i class="fa fa-plus"></i> Agregar Nuevo Producto</a>
     @endauth
 
 @if(session('success') || session('error'))
@@ -38,7 +38,7 @@
 @else
 
 <style>
-    /* Tabla acorde al diseño */
+    
     #productos-table {
         background: #fff;
         border-radius: 16px;
@@ -74,7 +74,7 @@
         margin: 0 auto;
         display: block;
     }
-    /* Botones de acción */
+   
     .btn-warning.btn-sm {
         background: #c28e00;
         color: #15401b;
@@ -101,16 +101,50 @@
         background: #c28e00;
         color: #15401b;
     }
-    /* Botones de exportar */
-    .btn-excel i {
-        color: #1D6F42;
-        font-size: 20px;
+    /* Estilos para la modal de edición */
+    #editarProductoModal .modal-content {
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(21, 64, 27, 0.12);
+        border: 1px solid #e0e0e0;
     }
-    .btn-pdf i {
-        color: #D32F2F;
-        font-size: 20px;
+    #editarProductoModal .modal-header {
+        background: #15401b;
+        color: #fff;
+        border-radius: 16px 16px 0 0;
+        font-weight: bold;
+        text-align: center;
     }
-    /* Responsive */
+    #editarProductoModal .modal-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    #editarProductoModal .btn-primary {
+        background: #15401b;
+        border: none;
+        font-weight: 600;
+        border-radius: 8px;
+    }
+    #editarProductoModal .btn-primary:hover {
+        background: #c28e00;
+        color: #fff;
+    }
+    #editarProductoModal .btn-secondary {
+        border-radius: 8px;
+    }
+    #editarProductoModal .form-label {
+        color: #15401b;
+        font-weight: 600;
+    }
+    #editarProductoModal .form-control:focus {
+        border-color: #15401b;
+        box-shadow: none;
+    }
+    #editarProductoModal .form-control {
+        border-radius: 10px;
+        border: 1px solid #ced4da;
+        box-shadow: none;
+    }
     @media (max-width: 768px) {
         #productos-table th, #productos-table td {
             font-size: 0.95rem;
@@ -152,7 +186,22 @@
             <td>{{ $producto->created_at->format('d/m/Y H:i') }}</td>
             @auth
             <td>
-                <a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm"><i class='bx bxs-edit-alt'></i></a>
+                <!-- Botón para abrir el modal de edición -->
+                <button 
+                    class="btn btn-warning btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editarProductoModal"
+                    data-id="{{ $producto->id }}"
+                    data-nombre="{{ $producto->nombre }}"
+                    data-descripcion="{{ $producto->descripcion }}"
+                    data-precio="{{ $producto->precio }}"
+                    data-stock="{{ $producto->stock }}"
+                    data-categoria="{{ $producto->categoria_id }}"
+                    data-imagen="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : '' }}"
+                    title="Editar"
+                >
+                    <i class='bx bxs-edit-alt'></i>
+                </button>
                 <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" style="display:inline-block;">
                     @csrf
                     @method('DELETE')
@@ -165,6 +214,59 @@
     </tbody>
 </table>
 @endif
+
+<!-- Modal de edición de producto -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="formEditarProducto" method="POST" enctype="multipart/form-data">
+      @csrf
+      @method('PUT')
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarProductoLabel">Editar Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="modal-nombre" class="form-label">Nombre:</label>
+            <input type="text" name="nombre" id="modal-nombre" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="modal-descripcion" class="form-label">Descripción:</label>
+            <textarea name="descripcion" id="modal-descripcion" class="form-control" rows="2"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="modal-precio" class="form-label">Precio:</label>
+            <input type="number" name="precio" id="modal-precio" class="form-control" min="0" step="0.01" required>
+          </div>
+          <div class="mb-3">
+            <label for="modal-stock" class="form-label">Stock:</label>
+            <input type="number" name="stock" id="modal-stock" class="form-control" min="0" required>
+          </div>
+          <div class="mb-3">
+            <label for="modal-categoria" class="form-label">Categoría:</label>
+            <select name="categoria_id" id="modal-categoria" class="form-control" required>
+                <option value="">Seleccione una categoría</option>
+                @foreach($categorias as $cat)
+                    <option value="{{ $cat->id }}">{{ $cat->nombre }}</option>
+                @endforeach
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Imagen actual:</label>
+            <div id="modal-imagen-preview" class="mb-2"></div>
+            <label for="modal-imagen" class="form-label">Cambiar imagen:</label>
+            <input type="file" name="imagen" id="modal-imagen" class="form-control" accept="image/*">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Actualizar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script>
 $(document).ready(function() {
@@ -202,6 +304,35 @@ $(document).ready(function() {
             zeroRecords: "No se encontraron registros coincidentes",
             emptyTable: "No hay datos disponibles en la tabla"
         }
+    });
+
+    // Modal edición producto
+    var editarModal = document.getElementById('editarProductoModal');
+    editarModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
+        var nombre = button.getAttribute('data-nombre');
+        var descripcion = button.getAttribute('data-descripcion');
+        var precio = button.getAttribute('data-precio');
+        var stock = button.getAttribute('data-stock');
+        var categoria = button.getAttribute('data-categoria');
+        var imagen = button.getAttribute('data-imagen');
+        var preview = document.getElementById('modal-imagen-preview');
+
+        document.getElementById('modal-nombre').value = nombre;
+        document.getElementById('modal-descripcion').value = descripcion;
+        document.getElementById('modal-precio').value = precio;
+        document.getElementById('modal-stock').value = stock;
+        document.getElementById('modal-categoria').value = categoria;
+
+        if(imagen){
+            preview.innerHTML = '<img src="'+imagen+'" alt="Imagen actual" style="max-width:100px;max-height:100px;border-radius:8px;border:1px solid #ccc;">';
+        } else {
+            preview.innerHTML = '<span class="text-muted">Sin imagen</span>';
+        }
+
+        var form = document.getElementById('formEditarProducto');
+        form.action = '/productos/' + id;
     });
 });
 </script>

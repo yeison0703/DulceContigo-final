@@ -39,7 +39,7 @@ class LoginController extends Controller
     }
     protected function authenticated($request, $user)
     {
-        return redirect('/')->with('login_success', '¡Bienvenido/a, has iniciado sesión correctamente!');
+        return redirect('/pedidos')->with('login_success', '¡Bienvenido/a, has iniciado sesión correctamente!');
     }
 
 }

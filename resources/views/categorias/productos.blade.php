@@ -90,6 +90,7 @@
     <h2 style="text-align: center; color:#15401b; margin-top: 18px;">
         Estos son nuestros deliciosos {{ $categoria->nombre }}
     </h2>
+    <a href="{{ url('/') }}" class="btn btn-outline-dark">Volver al catálogo</a>
     @if ($productos->isEmpty())
         <p style="text-align: center">No hay productos disponibles en esta categoría.</p>
         <br>
@@ -111,7 +112,7 @@
     </div>
     @endif
     <br>
-    <a href="{{ url('/') }}" class="btn btn-outline-dark">Volver al catálogo</a>
+    
 </div>
 <br>
 <br>

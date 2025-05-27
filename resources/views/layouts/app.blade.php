@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
     .logo{
         margin-left: 30px;
@@ -28,7 +29,7 @@
         border-radius: 100px;
     }
     .navbar {
-        background: #15401b !important; 
+    background: linear-gradient(90deg, rgb(15, 46, 27), rgb(20, 65, 38), rgb(18, 56, 32));
         box-shadow: 0 4px 6px rgba(21, 64, 27, 0.15);
     }
     .navbar-nav .nav-link {
@@ -114,11 +115,15 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a href="{{ url('/') }}" class="logo">
+            <a href="{{ url('/') }}" class="logo d-flex align-items-center">
                 <img src="https://media-cdn.tripadvisor.com/media/photo-s/19/a2/1c/a6/dulcecontigo.jpg" alt="">
+                @auth
+                    <span class="ms-3 fw-bold text-white" style="font-size:1.1rem;">
+                        {{ Auth::user()->name }}
+                    </span>
+                @endauth
             </a>
             <a class="navbar-brand" href="{{ url('/') }}"></a>
-            <!-- Botón hamburguesa personalizado -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
@@ -127,30 +132,42 @@
                     <span></span>
                 </span>
             </button>
-            <!-- Contenedor colapsable -->
+            
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link {{ request()->is('icicio*') ? 'active' : '' }}" href="{{ url('/') }}">Inicio</a></li>
+                    @guest
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('carrito.index') }}">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="contador-carrito" class="badge" style="background-color:#c28e00; color:#fff; margin-left:4px;">0</span>
+                            </a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('login')}}">Iniciar Sesión</a></li>
+                    @endguest
+
                     @auth
                         <li class="nav-item"><a class="nav-link {{ request()->is('productos*') ? 'active' : '' }}" href="{{ route('productos.index') }}">Productos</a></li>
                         <li class="nav-item"><a class="nav-link {{ request()->is('categorias*') ? 'active' : '' }}" href="{{ route('categorias.index') }}">Categorías</a></li>
-                    @endauth
-                    @guest
-                        <li class="nav-item"><a class="nav-link" href="{{route('login')}}">Iniciar Sesion</a></li>
-                    @endguest
-                    @auth
-                        <li class="nav-item"><a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Cerrar Sesion</a></li>                                              
-                       <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <li class="nav-item">
+                            <a class="nav-link{{ request()->is('pedidos') ? ' active' : '' }}" href="{{ url('/pedidos') }}">
+                                <i class="bi bi-list-ul"></i> Pedidos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Cerrar Sesión</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}" href="{{ route('register') }}">
+                                Registrar usuario
+                            </a>
+                        </li>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
                     @endauth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('carrito.index') }}">
-                            <i class="fas fa-shopping-cart"></i>
-                            Carrito
-                            <span id="contador-carrito" class="badge bg-danger" style="margin-left:4px;">0</span>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>

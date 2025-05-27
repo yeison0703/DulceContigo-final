@@ -5,6 +5,8 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
 use App\Models\Categoria;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('/', function () {
    $categorias = Categoria::all();
@@ -21,10 +23,20 @@ Route::resource('categorias', CategoriaController::class);
 Route::get('/categorias/{id}/productos',[CategoriaController::class, 'verProductos'])->name('categorias.producto');
 
 
-Route::resource('perfiles', PerfilController::class);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/carrito', function () {
     return view('carrito.index');
 })->name('carrito.index');
+Route::post('/pedidos', [PedidoController::class, 'store']);
+Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth');
+Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy'])->middleware('auth');
+
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])
+    ->middleware('auth')
+    ->name('register');
+
+Route::post('register', [RegisterController::class, 'register'])
+    ->middleware('auth');
