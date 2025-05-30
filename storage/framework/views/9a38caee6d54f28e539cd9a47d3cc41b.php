@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .productos-grid {
         display: flex;
@@ -88,29 +87,30 @@
 </style>
 <div class="container">
     <h2 style="text-align: center; color:#15401b; margin-top: 18px;">
-        Estos son nuestros deliciosos {{ $categoria->nombre }}
+        Estos son nuestros deliciosos <?php echo e($categoria->nombre); ?>
+
     </h2>
-    <a href="{{ url('/') }}" class="btn btn-outline-dark">Volver al catálogo</a>
-    @if ($productos->isEmpty())
+    <a href="<?php echo e(url('/')); ?>" class="btn btn-outline-dark">Volver al catálogo</a>
+    <?php if($productos->isEmpty()): ?>
         <p style="text-align: center">No hay productos disponibles en esta categoría.</p>
         <br>
-    @else
+    <?php else: ?>
     <div class="productos-grid">
-        @foreach ($productos as $producto)
+        <?php $__currentLoopData = $productos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $producto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="producto-card">
-            <img src="{{ asset('storage/' . $producto->imagen) }}" alt="imagen del producto">
-            <h5>{{ $producto->nombre }}</h5>
-            <p>${{ $producto->precio }}</p>
+            <img src="<?php echo e(asset('storage/' . $producto->imagen)); ?>" alt="imagen del producto">
+            <h5><?php echo e($producto->nombre); ?></h5>
+            <p>$<?php echo e($producto->precio); ?></p>
             <div class="btns-group">
-                <a href="{{route('producto.show',$producto->id)}}" class="btn">Ver</a>
+                <a href="<?php echo e(route('producto.show',$producto->id)); ?>" class="btn">Ver</a>
                 <button type="button" class="btn-carrito" title="Agregar al carrito">
                     <i class="fas fa-shopping-cart"></i>
                 </button>
             </div>
         </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
-    @endif
+    <?php endif; ?>
     <br>
     
 </div>
@@ -145,7 +145,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.btn-carrito').forEach(function(btn, idx) {
             btn.addEventListener('click', function() {
-                const producto = @json($productos)[idx];
+                const producto = <?php echo json_encode($productos, 15, 512) ?>[idx];
                 agregarAlCarrito(producto.id, producto.nombre, producto.precio, producto.imagen);
             });
         });
@@ -153,4 +153,5 @@
 
     
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Pictures\Instagram_files\dulcecontigo-copia-ACTULIZADO 23 DE MAYO\resources\views/categorias/productos.blade.php ENDPATH**/ ?>

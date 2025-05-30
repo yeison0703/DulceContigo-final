@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
     .producto-detalle-card {
         background: #fff;
@@ -97,16 +96,16 @@
 <div class="producto-detalle-card">
     <div class="row align-items-center">
         <div class="col-md-5 text-center">
-            <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}" class="producto-detalle-img">
+            <img src="<?php echo e(asset('storage/' . $producto->imagen)); ?>" alt="<?php echo e($producto->nombre); ?>" class="producto-detalle-img">
         </div>
         <div class="col-md-7">
-            <div class="producto-detalle-nombre">{{ $producto->nombre }}</div>
-            <div class="producto-detalle-precio">Precio: ${{ $producto->precio }}</div>
-            <div class="producto-detalle-info"><strong>Stock disponible:</strong> {{ $producto->stock }}</div>
-            <div class="producto-detalle-info"><strong>Categoría:</strong> {{ $producto->categoria->nombre }}</div>
-            <div class="producto-detalle-descripcion">{{ $producto->descripcion }}</div>
+            <div class="producto-detalle-nombre"><?php echo e($producto->nombre); ?></div>
+            <div class="producto-detalle-precio">Precio: $<?php echo e($producto->precio); ?></div>
+            <div class="producto-detalle-info"><strong>Stock disponible:</strong> <?php echo e($producto->stock); ?></div>
+            <div class="producto-detalle-info"><strong>Categoría:</strong> <?php echo e($producto->categoria->nombre); ?></div>
+            <div class="producto-detalle-descripcion"><?php echo e($producto->descripcion); ?></div>
             <div class="producto-detalle-btns">
-                <a href="{{ url()->previous() }}" class="btn btn-success">
+                <a href="<?php echo e(url()->previous()); ?>" class="btn btn-success">
                     Volver
                 </a>
                 <button type="button" class="btn btn-secondary btn-carrito" title="Agregar al carrito">
@@ -142,9 +141,10 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.btn-carrito').addEventListener('click', function() {
-            const producto = @json($producto);
+            const producto = <?php echo json_encode($producto, 15, 512) ?>;
             agregarAlCarrito(producto.id, producto.nombre, producto.precio, producto.imagen);
         });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Pictures\Instagram_files\dulcecontigo-copia-ACTULIZADO 23 DE MAYO\resources\views/productos/show.blade.php ENDPATH**/ ?>

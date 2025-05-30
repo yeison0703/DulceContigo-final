@@ -76,24 +76,35 @@ class ProductoController extends Controller
     }
 
     public function update(Request $request, string $id)
-    {
-        // Validación de los campos
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string',
-            'precio' => 'required|numeric',
-            'stock' => 'required|integer',
-            'categoria_id' => 'required|exists:categorias,id', // Asegúrate de que la categoría exista
-            'imagen' => 'nullable|url',
-        ]);
+{
+    // Validación de los campos
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'descripcion' => 'required|string',
+        'precio' => 'required|numeric',
+        'stock' => 'required|integer',
+        'categoria_id' => 'required|exists:categorias,id',
+        'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        // Actualizar el producto
-        $producto = Producto::findOrFail($id);
-        $producto->update($request->all());
+    $producto = Producto::findOrFail($id);
 
-        // Redirigir al listado con mensaje
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente.');
+    $data = $request->all();
+
+    // Si se sube una nueva imagen, guárdala y actualiza el campo
+    if ($request->hasFile('imagen')) {
+        $rutaImagen = $request->file('imagen')->store('productos', 'public');
+        $data['imagen'] = $rutaImagen;
+    } else {
+        // Si no se sube nueva imagen, no modificar el campo imagen
+        unset($data['imagen']);
     }
+
+    $producto->update($data);
+
+    // Redirigir al listado con mensaje
+    return redirect()->route('productos.index')->with('success', 'Producto actualizado exitosamente.');
+}
 
 
     public function destroy(string $id)

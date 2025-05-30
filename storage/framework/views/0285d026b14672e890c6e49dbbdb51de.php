@@ -1,43 +1,41 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container">
     <h1 style="text-align: center">Lista de Productos</h1>
-    @auth
+    <?php if(auth()->guard()->check()): ?>
         <a href="#" class="btn btn-outline-dark mb-3" style="font-weight:600; border-radius: 1.5rem;" data-bs-toggle="modal" data-bs-target="#crearProductoModal">
     <i class="fa fa-plus"></i> Agregar Nuevo Producto
 </a>
-    @endauth
+    <?php endif; ?>
 
-@if(session('success') || session('error'))
+<?php if(session('success') || session('error')): ?>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            @if(session('success'))
+            <?php if(session('success')): ?>
                 Swal.fire({
                     icon: 'success',
                     title: '¡Éxito!',
-                    text: '{{ session('success') }}',
+                    text: '<?php echo e(session('success')); ?>',
                     timer: 2000,
                     showConfirmButton: false,
                 });
-            @endif
-            @if(session('error'))
+            <?php endif; ?>
+            <?php if(session('error')): ?>
                 Swal.fire({
                     icon: 'error',
                     title: '¡Error!',
-                    text: '{{ session('error') }}',
+                    text: '<?php echo e(session('error')); ?>',
                     timer: 2000,
                     showConfirmButton: false,
                 });
-            @endif
+            <?php endif; ?>
         });
     </script>
-@endif
+<?php endif; ?>
 
-@if ($productos->isEmpty())
+<?php if($productos->isEmpty()): ?>
     <p>No hay productos registrados.</p>
-@else
+<?php else: ?>
 
 <style>
     
@@ -209,64 +207,64 @@
             <th>Categoría</th>
             <th>Imagen</th>
             <th>Fecha de creación</th>
-            @auth
+            <?php if(auth()->guard()->check()): ?>
             <th>Acciones</th>
-            @endauth 
+            <?php endif; ?> 
         </tr>
     </thead>
     <tbody>
-        @foreach ($productos as $producto)
+        <?php $__currentLoopData = $productos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $producto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-            <td>{{ $producto->nombre }}</td>
-            <td>{{ $producto->descripcion }}</td>
-            <td>${{ $producto->precio }}</td>
-            <td>{{ $producto->stock }}</td>
-            <td>{{ $producto->categoria->nombre ?? 'sin categoria' }}</td>
+            <td><?php echo e($producto->nombre); ?></td>
+            <td><?php echo e($producto->descripcion); ?></td>
+            <td>$<?php echo e($producto->precio); ?></td>
+            <td><?php echo e($producto->stock); ?></td>
+            <td><?php echo e($producto->categoria->nombre ?? 'sin categoria'); ?></td>
             <td>
-                @if ($producto->imagen)
-                    <img src="{{ asset('storage/' . $producto->imagen) }}" width="80" alt="imagen del producto">
-                @else
+                <?php if($producto->imagen): ?>
+                    <img src="<?php echo e(asset('storage/' . $producto->imagen)); ?>" width="80" alt="imagen del producto">
+                <?php else: ?>
                     Sin imagen
-                @endif
+                <?php endif; ?>
             </td>
-            <td>{{ $producto->created_at->format('d/m/Y H:i') }}</td>
-            @auth
+            <td><?php echo e($producto->created_at->format('d/m/Y H:i')); ?></td>
+            <?php if(auth()->guard()->check()): ?>
             <td>
                 <!-- Botón para abrir el modal de edición -->
                 <button 
                     class="btn btn-warning btn-sm"
                     data-bs-toggle="modal"
                     data-bs-target="#editarProductoModal"
-                    data-id="{{ $producto->id }}"
-                    data-nombre="{{ $producto->nombre }}"
-                    data-descripcion="{{ $producto->descripcion }}"
-                    data-precio="{{ $producto->precio }}"
-                    data-stock="{{ $producto->stock }}"
-                    data-categoria="{{ $producto->categoria_id }}"
-                    data-imagen="{{ $producto->imagen ? asset('storage/' . $producto->imagen) : '' }}"
+                    data-id="<?php echo e($producto->id); ?>"
+                    data-nombre="<?php echo e($producto->nombre); ?>"
+                    data-descripcion="<?php echo e($producto->descripcion); ?>"
+                    data-precio="<?php echo e($producto->precio); ?>"
+                    data-stock="<?php echo e($producto->stock); ?>"
+                    data-categoria="<?php echo e($producto->categoria_id); ?>"
+                    data-imagen="<?php echo e($producto->imagen ? asset('storage/' . $producto->imagen) : ''); ?>"
                     title="Editar"
                 >
                     <i class='bx bxs-edit-alt'></i>
                 </button>
-                <form action="{{ route('productos.destroy', $producto->id) }}" method="POST" style="display:inline-block;">
-                    @csrf
-                    @method('DELETE')
+                <form action="<?php echo e(route('productos.destroy', $producto->id)); ?>" method="POST" style="display:inline-block;">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')"><i class='bx bxs-trash'></i></button>
                 </form>
             </td>
-            @endauth
+            <?php endif; ?>
         </tr>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </tbody>
 </table>
-@endif
+<?php endif; ?>
 
 <!-- Modal de edición de producto -->
 <div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form id="formEditarProducto" method="POST" enctype="multipart/form-data">
-      @csrf
-      @method('PUT')
+      <?php echo csrf_field(); ?>
+      <?php echo method_field('PUT'); ?>
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editarProductoLabel">Editar Producto</h5>
@@ -293,9 +291,9 @@
             <label for="modal-categoria" class="form-label">Categoría:</label>
             <select name="categoria_id" id="modal-categoria" class="form-control" required>
                 <option value="">Seleccione una categoría</option>
-                @foreach($categorias as $cat)
-                    <option value="{{ $cat->id }}">{{ $cat->nombre }}</option>
-                @endforeach
+                <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($cat->id); ?>"><?php echo e($cat->nombre); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
           </div>
           <div class="mb-3">
@@ -317,8 +315,8 @@
 <!-- Modal de creación de producto -->
 <div class="modal fade" id="crearProductoModal" tabindex="-1" aria-labelledby="crearProductoLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
-      @csrf
+    <form action="<?php echo e(route('productos.store')); ?>" method="POST" enctype="multipart/form-data">
+      <?php echo csrf_field(); ?>
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="crearProductoLabel">Agregar Nuevo Producto</h5>
@@ -345,9 +343,9 @@
             <label for="crear-categoria" class="form-label">Categoría:</label>
             <select name="categoria_id" id="crear-categoria" class="form-control" required>
                 <option value="">Seleccione una categoría</option>
-                @foreach($categorias as $cat)
-                    <option value="{{ $cat->id }}">{{ $cat->nombre }}</option>
-                @endforeach
+                <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($cat->id); ?>"><?php echo e($cat->nombre); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </select>
           </div>
           <div class="mb-3">
@@ -433,4 +431,5 @@ $(document).ready(function() {
 });
 </script>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Pictures\Instagram_files\dulcecontigo-copia-ACTULIZADO 23 DE MAYO\resources\views/productos/index.blade.php ENDPATH**/ ?>

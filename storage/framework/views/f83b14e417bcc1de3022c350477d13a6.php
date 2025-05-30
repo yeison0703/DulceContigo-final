@@ -1,44 +1,42 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container">
     <h2 class="fw-bold mb-4 text-center" style="color:#15401b;">Lista de Categorías</h2>
 
-    @if(session('success') || session('error'))
+    <?php if(session('success') || session('error')): ?>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                @if(session('success'))
+                <?php if(session('success')): ?>
                     Swal.fire({
                         icon: 'success',
                         title: '¡Éxito!',
-                        text: '{{ session('success') }}',
+                        text: '<?php echo e(session('success')); ?>',
                         confirmButtonColor: '#15401b'
                     });
-                @endif
-                @if(session('error'))
+                <?php endif; ?>
+                <?php if(session('error')): ?>
                     Swal.fire({
                         icon: 'error',
                         title: '¡Error!',
-                        text: '{{ session('error') }}',
+                        text: '<?php echo e(session('error')); ?>',
                         confirmButtonColor: '#c28e00'
                     });
-                @endif
+                <?php endif; ?>
             });
         </script>
-    @endif
+    <?php endif; ?>
 
-    @auth
+    <?php if(auth()->guard()->check()): ?>
         <a href="#" class="btn btn-outline-dark mb-3" style="font-weight:600; border-radius: 1.5rem;" data-bs-toggle="modal" data-bs-target="#crearCategoriaModal">
     <i class="fa fa-plus"></i> Agregar Nueva Categoría
 </a>
-    @endauth
+    <?php endif; ?>
 
-    @if($categorias->isEmpty())
+    <?php if($categorias->isEmpty()): ?>
         <div class="alert alert-info text-center">
             No hay categorías registradas.
         </div>
-    @else
+    <?php else: ?>
     <style>
         #categorias-table {
             background: #fff;
@@ -141,49 +139,49 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    @auth
+                    <?php if(auth()->guard()->check()): ?>
                     <th>Acciones</th>
-                    @endauth
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
-                @foreach($categorias as $categoria)
+                <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categoria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td class="fw-semibold" style="color:#15401b;">{{ $categoria->nombre }}</td>
-                    <td>{{ $categoria->descripcion }}</td>
-                    @auth
+                    <td class="fw-semibold" style="color:#15401b;"><?php echo e($categoria->nombre); ?></td>
+                    <td><?php echo e($categoria->descripcion); ?></td>
+                    <?php if(auth()->guard()->check()): ?>
                     <td>
                         <button 
     class="btn btn-warning btn-sm"
     data-bs-toggle="modal"
     data-bs-target="#editarCategoriaModal"
-    data-id="{{ $categoria->id }}"
-    data-nombre="{{ $categoria->nombre }}"
-    data-descripcion="{{ $categoria->descripcion }}"
+    data-id="<?php echo e($categoria->id); ?>"
+    data-nombre="<?php echo e($categoria->nombre); ?>"
+    data-descripcion="<?php echo e($categoria->descripcion); ?>"
     title="Editar"
 >
     <i class='bx bxs-edit-alt'></i>
 </button>
-                        <form action="{{ route('categorias.destroy', $categoria->id) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
+                        <form action="<?php echo e(route('categorias.destroy', $categoria->id)); ?>" method="POST" style="display:inline-block;">
+                            <?php echo csrf_field(); ?>
+                            <?php echo method_field('DELETE'); ?>
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta categoría?')"><i class='bx bxs-trash'></i></button>
                         </form>
                     </td>
-                    @endauth
+                    <?php endif; ?>
                 </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
     </div>
-    @endif
+    <?php endif; ?>
 </div>
 
 <!-- Modal de creación de categoría -->
 <div class="modal fade" id="crearCategoriaModal" tabindex="-1" aria-labelledby="crearCategoriaLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <form action="{{ route('categorias.store') }}" method="POST">
-      @csrf
+    <form action="<?php echo e(route('categorias.store')); ?>" method="POST">
+      <?php echo csrf_field(); ?>
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="crearCategoriaLabel">Agregar Nueva Categoría</h5>
@@ -258,8 +256,8 @@
 <div class="modal fade" id="editarCategoriaModal" tabindex="-1" aria-labelledby="editarCategoriaLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form id="formEditarCategoria" method="POST">
-      @csrf
-      @method('PUT')
+      <?php echo csrf_field(); ?>
+      <?php echo method_field('PUT'); ?>
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="editarCategoriaLabel">Editar Categoría</h5>
@@ -301,4 +299,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Pictures\Instagram_files\dulcecontigo-copia-ACTULIZADO 23 DE MAYO\resources\views/categorias/index.blade.php ENDPATH**/ ?>
