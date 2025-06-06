@@ -163,7 +163,7 @@
                 <img src="https://media-cdn.tripadvisor.com/media/photo-s/19/a2/1c/a6/dulcecontigo.jpg" alt="">
                 @auth
                     <span class="ms-3 fw-bold text-white" style="font-size:1.1rem;"> Bienvenido:
-                        {{ Auth::user()->name }}
+                        {{ Auth::user()->name }}.
                     </span>
                 @endauth
             </a>
