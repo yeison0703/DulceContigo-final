@@ -5,7 +5,7 @@
         <div class="mt-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold" style="color:#15401b; margin-bottom:0;">
-                    Historial de Pedidos
+                    Historial de Pedidos.
                 </h4>
                 <span class="badge"
                     style="background:#c28e00; color:white; font-size:1rem; min-width:90px; text-align:right;">
