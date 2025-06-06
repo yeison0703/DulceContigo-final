@@ -42,6 +42,10 @@
         font-weight: 600;
         transition: background 0.2s;
     }
+    .btn-primary:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
     .btn-primary:hover {
         background: #c28e00;
         color: #fff;

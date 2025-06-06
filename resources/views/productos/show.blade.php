@@ -110,7 +110,7 @@
                     Volver
                 </a>
                 <button type="button" class="btn btn-secondary btn-carrito" title="Agregar al carrito">
-                    <i class="fas fa-shopping-cart"></i> Agregar al carrito
+                    <i class="fas fa-shopping-cart"></i>
                 </button>
             </div>
         </div>

@@ -1,25 +1,24 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container">
     <!-- Encabezado con título y contador de pedidos de hoy -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="fw-bold" style="color:#15401b;">Pedidos</h2>
         <div class="d-flex align-items-center">
             <span class="badge" style="background-color:#c28e00; color:#fff; font-size:1.1rem; padding:10px 18px;">
-                Pedidos pendientes: {{ $totalPedidosHoy ?? 0 }}
+                Pedidos pendientes: <?php echo e($totalPedidosHoy ?? 0); ?>
+
             </span>
             <button type="button" class="btn ms-2 p-0" style="background:#c09624; color:#15401b; border-radius:50%; width:46px; height:46px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(194,142,0,0.13); border:2px solid #c28e00;" disabled>
                 <i class="bi bi-cart-fill" style="font-size:1.7rem;"></i>
             </button>
         </div>
     </div>
-    @if($pedidos->isEmpty())
+    <?php if($pedidos->isEmpty()): ?>
         <!-- Mensaje si no hay pedidos -->
         <div class="alert alert-info text-center">
             No hay pedidos registrados.
         </div>
-    @else
+    <?php else: ?>
     <!-- Estilos personalizados para la tabla de pedidos -->
     <style>
         #pedidos-table {
@@ -79,11 +78,11 @@
                 </tr>
             </thead>
             <tbody>
-                @php
+                <?php
                     $contadorPorDia = [];
-                @endphp
-                @foreach($pedidos as $pedido)
-                    @php
+                ?>
+                <?php $__currentLoopData = $pedidos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pedido): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         // Calcular el total del pedido sumando precio * cantidad de cada producto
                         $total = 0;
                         $productos = json_decode($pedido->productos, true);
@@ -99,46 +98,48 @@
                             $contadorPorDia[$fechaClave]++;
                         }
                         $numeroPedido = $pedido->created_at->format('ymd') . '-' . str_pad($contadorPorDia[$fechaClave], 3, '0', STR_PAD_LEFT);
-                    @endphp
-                    <tr id="pedido-{{ $pedido->id }}">
-                        <td class="fw-bold" style="color:#15401b;">{{ $numeroPedido }}</td>
-                        <td>{{ $pedido->nombre }}</td>
-                        <td>{{ $pedido->telefono }}</td>
+                    ?>
+                    <tr id="pedido-<?php echo e($pedido->id); ?>">
+                        <td class="fw-bold" style="color:#15401b;"><?php echo e($numeroPedido); ?></td>
+                        <td><?php echo e($pedido->nombre); ?></td>
+                        <td><?php echo e($pedido->telefono); ?></td>
                         <td>
                             <!-- Mostrar método de pago como badge -->
-                            <span class="badge" style="background:#15401b; color:#fff;">{{ $pedido->metodo_pago }}</span>
+                            <span class="badge" style="background:#15401b; color:#fff;"><?php echo e($pedido->metodo_pago); ?></span>
                         </td>
-                        <td>{{ $pedido->comentarios }}</td>
+                        <td><?php echo e($pedido->comentarios); ?></td>
                         <td>
                             <!-- Listado de productos del pedido -->
                             <ul class="mb-0 ps-3" style="font-size: 0.97rem;">
-                                @foreach($productos as $producto)
+                                <?php $__currentLoopData = $productos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $producto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <li>
-                                        <span class="fw-semibold" style="color:#15401b;">{{ $producto['nombre'] }}</span>
-                                        x{{ $producto['cantidad'] }}
-                                        <span class="text-muted">(${{ number_format($producto['precio'], 2) }} c/u)</span>
+                                        <span class="fw-semibold" style="color:#15401b;"><?php echo e($producto['nombre']); ?></span>
+                                        x<?php echo e($producto['cantidad']); ?>
+
+                                        <span class="text-muted">($<?php echo e(number_format($producto['precio'], 2)); ?> c/u)</span>
                                     </li>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </td>
                         <!-- Total del pedido -->
                         <td class="fw-bold text-success" style="font-size:1.15rem;">
-                            ${{ number_format($total, 2) }}
+                            $<?php echo e(number_format($total, 2)); ?>
+
                         </td>
                         <!-- Fecha de creación del pedido -->
-                        <td>{{ $pedido->created_at->format('d/m/Y H:i') }}</td>
+                        <td><?php echo e($pedido->created_at->format('d/m/Y H:i')); ?></td>
                         <td>
                             <!-- Botón para marcar el pedido como listo -->
-                            <button type="button" class="btn btn-success btn-sm btn-confirmar-pedido" data-id="{{ $pedido->id }}">
+                            <button type="button" class="btn btn-success btn-sm btn-confirmar-pedido" data-id="<?php echo e($pedido->id); ?>">
                                 <i class="fa fa-check"></i> Listo
                             </button>
                         </td>
                     </tr>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
     </div>
-    @endif
+    <?php endif; ?>
 </div>
 
 <!-- SweetAlert2 para confirmación de acción -->
@@ -190,4 +191,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Desktop\DulceContigo-final\resources\views/pedidos/index.blade.php ENDPATH**/ ?>

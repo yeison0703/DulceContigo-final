@@ -9,7 +9,7 @@ class CategoriaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'verProductos']);
+        $this->middleware('auth')->except(['verProductos']);
     }
     public function index()
     {

@@ -22,18 +22,22 @@ Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('product
 Route::resource('categorias', CategoriaController::class);
 Route::get('/categorias/{id}/productos',[CategoriaController::class, 'verProductos'])->name('categorias.producto');
 
-
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/carrito', function () {
     return view('carrito.index');
 })->name('carrito.index');
+
+// Rutas de pedidos
 Route::post('/pedidos', [PedidoController::class, 'store']);
 Route::get('/pedidos', [PedidoController::class, 'index'])->middleware('auth');
 Route::delete('/pedidos/{id}', [PedidoController::class, 'destroy'])->middleware('auth');
+Route::post('/pedidos/{id}/completar', [PedidoController::class, 'completar'])->middleware('auth')->name('pedidos.completar');
+Route::get('/pedidos/historial', [PedidoController::class, 'historial'])->middleware('auth')->name('pedidos.historial');
+Route::get('/pedidos/pendientes', [PedidoController::class, 'pendientes'])->middleware('auth')->name('pedidos.pendientes');
 
+// Registro solo para administradores autenticados
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])
     ->middleware('auth')
     ->name('register');

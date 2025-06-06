@@ -1,21 +1,19 @@
-@extends('layouts.app')
+<?php $__env->startSection('content'); ?>
 
-@section('content')
-
-@if(session('login_success'))
+<?php if(session('login_success')): ?>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 icon: 'success',
                 title: '¡Bienvenido!',
-                text: '{{ session('login_success') }}',
+                text: '<?php echo e(session('login_success')); ?>',
                 timer: 2000,
                 showConfirmButton: false,
             });
         });
     </script>
-@endif
+<?php endif; ?>
 
 
 <!DOCTYPE html>
@@ -304,30 +302,31 @@ footer {
 
     <div id="categoriasCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          @php
+          <?php
                 $imagenes = [
                     'Postres'=>'https://0701.static.prezi.com/preview/v2/otksijunl3nhsozxhpzd4w3jnx6jc3sachvcdoaizecfr3dnitcq_3_0.png',
                     'Conservas'=>'https://www.farmaceuticosdesevilla.es/consejossaludables/wp-content/uploads/sites/3/2022/03/1450119467-fotolia_70795211_subscription_xxl.jpg',
                     'Dulces'=>'https://m.media-amazon.com/images/I/714NzgGcudL.SL1500.jpg',
                     //agregar nombre y url para mas categorias
         ];
-            @endphp
+            ?>
 
-            @foreach ($categorias as $index => $categoria)
-                <div class="carousel-item @if($index == 0) active @endif">
+            <?php $__currentLoopData = $categorias; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $categoria): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="carousel-item <?php if($index == 0): ?> active <?php endif; ?>">
                     <div class="d-flex justify-content-center align-items-center flex-column" style="height: 500px;">
 
-                        <img src="{{ $imagenes[$categoria->nombre] ?? 'https://via.placeholder.com' }}" class="" alt="{{ $categoria->nombre }}"
+                        <img src="<?php echo e($imagenes[$categoria->nombre] ?? 'https://via.placeholder.com'); ?>" class="" alt="<?php echo e($categoria->nombre); ?>"
                         style="height: 400px; width:960px">
 
-                        <h5 class="mt-3">{{ $categoria->descripcion }}</h5>
+                        <h5 class="mt-3"><?php echo e($categoria->descripcion); ?></h5>
 
-                        <a href="{{ route('categorias.producto', $categoria->id) }}" class="btn btn-outline-dark">
-                            {{ $categoria->nombre }}
+                        <a href="<?php echo e(route('categorias.producto', $categoria->id)); ?>" class="btn btn-outline-dark">
+                            <?php echo e($categoria->nombre); ?>
+
                         </a>
                     </div>
                 </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
         </div>
 
@@ -518,9 +517,9 @@ footer {
   AOS.init();
 </script>
 <a id="inicio"></a>
-    {{-- ...código existente... --}}
+    
 
-    {{-- Botón "Ir arriba" --}}
+    
     <button id="btn-ir-arriba" title="Ir arriba">
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" style="vertical-align:middle;margin-bottom:3px;" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8 12a.5.5 0 0 1-.5-.5V4.707L4.354 8.854a.5.5 0 1 1-.708-.708l4-4a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1-.708.708L8.5 4.707V11.5A.5.5 0 0 1 8 12z"/>
@@ -528,7 +527,7 @@ footer {
         
     </button>
 
-    {{-- ...código existente... --}}
+    
 
     <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
     <script>
@@ -555,4 +554,5 @@ footer {
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Desktop\DulceContigo-final\resources\views/welcome.blade.php ENDPATH**/ ?>
