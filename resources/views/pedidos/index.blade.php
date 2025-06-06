@@ -4,7 +4,7 @@
 <div class="container">
     <!-- Encabezado con título y contador de pedidos de hoy -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold" style="color:#15401b;">Pedidos</h2>
+        <h2 class="fw-bold" style="color:#15401b;">Pedidos pendientes</h2>
         <div class="d-flex align-items-center">
             <span class="badge" style="background-color:#c28e00; color:#fff; font-size:1.1rem; padding:10px 18px;">
                 Pedidos pendientes: {{ $totalPedidosHoy ?? 0 }}
