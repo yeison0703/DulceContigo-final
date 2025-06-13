@@ -30,7 +30,7 @@
           </div>
           <div class="mb-3">
             <label for="telefono" class="form-label">Teléfono</label>
-            <input type="tel" class="form-control" id="telefono" name="telefono" required>
+            <input type="tel" class="form-control" id="telefono" name="telefono" required placeholder="Número de teléfono">
           </div>
           <div class="mb-3">
             <label class="form-label">Método de pago</label>
@@ -48,7 +48,7 @@
             </div>
             <div id="qrPagoDiv" class="text-center mb-2" style="display:none;">
               <img src="/imagenes/QR.jpg" alt="QR de cuenta de ahorros" style="max-width:180px; width:100%; border-radius:1rem; border:2px solid #e9ecef; background:#fff; padding:8px;">
-              <div style="font-size:0.95rem; color:#15401b; margin-top:0.5rem;">Escanea este QR para pagar a la cuenta de ahorros</div>
+              <div style="font-size:0.95rem; color:#15401b; margin-top:0.5rem;">Escanea este QR para pagar a la cuenta de ahorros o envialo a esta cuenta de ahorros: 91282724605</div>
             </div>
           </div>
           <div class="mb-3">
@@ -120,6 +120,118 @@
         font-weight: 700;
         color: #198754;
     }
+
+    /* Estilos para el modal de pago */
+#modalPago .modal-content {
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 16px rgba(21, 64, 27, 0.13);
+    border: 1px solid #e0e0e0;
+    background: #f8f9fa;
+}
+
+#modalPago .modal-header {
+    background: #15401b;
+    color: #fff;
+    border-radius: 1.5rem 1.5rem 0 0;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+#modalPago .modal-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+#modalPago .btn-success {
+    background: #198754;
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+#modalPago .btn-success:hover {
+    background: #15401b;
+    color: #fff;
+}
+
+#modalPago .btn-outline-secondary {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+#modalPago .form-label {
+    color: #15401b;
+    font-weight: 600;
+}
+
+#modalPago .form-control:focus {
+    border-color: #15401b;
+    box-shadow: none;
+}
+
+#modalPago .form-control {
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+    background: #fff;
+}
+
+#modalPago .modal-footer {
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 1.5rem 1.5rem;
+    background: #f8f9fa;
+}
+
+#modalPago .form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+#modalPago .form-check-label {
+    color: #15401b;
+    font-weight: 500;
+}
+
+#modalPago #qrPagoDiv img {
+    border-radius: 1rem;
+    border: 2px solid #e9ecef;
+    background: #fff;
+    padding: 8px;
+    max-width: 180px;
+    width: 100%;
+}
+
+#modalPago #qrPagoDiv div {
+    font-size: 0.95rem;
+    color: #15401b;
+    margin-top: 0.5rem;
+}
+
+#modalPago .modal-dialog {
+    max-width: 750px;
+    margin-top: 3vh; /* Sube la modal más cerca del top */
+}
+
+@media (max-width: 800px) {
+    #modalPago .modal-dialog {
+        max-width: 98vw;
+        margin: 1rem auto 0 auto;
+        margin-top: 2vh;
+    }
+}
+
+@media (max-width: 576px) {
+    #modalPago .modal-dialog {
+        margin: 1rem;
+    }
+    #modalPago .modal-content {
+        border-radius: 1rem;
+    }
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -229,7 +341,7 @@
 
             const data = {
                 nombre: document.getElementById('nombre').value,
-                telefono: document.getElementById('telefono').value,
+                telefono: document.getElementById('indicativo').value + document.getElementById('telefono').value,
                 metodo_pago: document.querySelector('input[name="metodo_pago"]:checked').value,
                 comentarios: document.getElementById('comentarios').value,
                 productos: carrito
