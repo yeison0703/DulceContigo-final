@@ -163,8 +163,7 @@
                 <img src="https://media-cdn.tripadvisor.com/media/photo-s/19/a2/1c/a6/dulcecontigo.jpg" alt="">
                 <?php if(auth()->guard()->check()): ?>
                     <span class="ms-3 fw-bold text-white" style="font-size:1.1rem;"> Bienvenido:
-                        <?php echo e(Auth::user()->name); ?>
-
+                        <?php echo e(Auth::user()->name); ?>.
                     </span>
                 <?php endif; ?>
             </a>

@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container py-4">
     <h2 class="mb-4 text-center fw-bold" style="color:#15401b;">Carrito de compras</h2>
     <div id="carritoProductos" class="mb-4"></div>
@@ -262,4 +260,5 @@
         });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\DulceContigo-final\resources\views/carrito/index.blade.php ENDPATH**/ ?>
