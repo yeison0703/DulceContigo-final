@@ -38,11 +38,16 @@
                 Efectivo (al recoger)
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="metodo_pago" id="transferencia" value="Transferencia" required>
-              <label class="form-check-label" for="transferencia">
-                Transferencia
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" name="metodo_pago" id="qr" value="QR" required>
+              <label class="form-check-label" for="qr">
+                QR (escanea para pagar)
               </label>
+            </div>
+            <div id="qrPagoDiv" class="text-center mb-2" style="display:none;">
+              <img src="/imagenes/qr.jpg" alt="QR de cuenta de ahorros" style="max-width:180px; width:100%; border-radius:1rem; border:2px solid #e9ecef; background:#fff; padding:8px;">
+              <div style="font-size:0.95rem; color:#15401b; margin-top:0.5rem;">Escanea este QR para pagar a la cuenta de ahorros y enviar a  <a href="https://api.whatsapp.com/send?phone=573246283231&text=Hola%20%F0%9F%91%8B%20Miguelucho" target="_blank"><i class="fab fa-whatsapp"></i>3246283231 </a></div>
+              <div style="font-size:0.95rem; color:#15401b; margin-top:0.5rem;">Acepto terminos y condiciones</div>
             </div>
           </div>
           <div class="mb-3">
@@ -210,6 +215,13 @@
     // Manejo del formulario de pago
     document.addEventListener('DOMContentLoaded', function() {
         mostrarCarrito();
+
+        // Mostrar/ocultar QR según selección
+        document.querySelectorAll('input[name="metodo_pago"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                document.getElementById('qrPagoDiv').style.display = (this.value === 'QR') ? 'block' : 'none';
+            });
+        });
 
         document.getElementById('formPago').addEventListener('submit', function(e) {
             e.preventDefault();
