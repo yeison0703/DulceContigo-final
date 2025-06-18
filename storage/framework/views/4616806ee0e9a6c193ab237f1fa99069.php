@@ -54,7 +54,7 @@
       .carousel-control-prev-icon,
 .carousel-control-next-icon {
     background-color: #000;
-     border-radius: 20%; 
+    border-radius: 10%; 
 }
 footer {
     background: linear-gradient(90deg, rgb(15, 46, 27), rgb(20, 65, 38), rgb(18, 56, 32));
@@ -252,8 +252,9 @@ footer {
 /* Imagen con efecto de escala al hacer hover */
 .image-wrapper {
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 5px;
   position: relative;
+  box-shadow: 0 4px 8px rgba(5, 1, 1, 2.9);"
 }
 
 .image-wrapper img {
@@ -355,7 +356,7 @@ footer {
     <div class="row mt-4">
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/66/f1/66/las-fronteras-no-son.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Cheesecake">
+          <a href="<?php echo e(route('categorias.producto', 1)); ?>"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/66/f1/66/las-fronteras-no-son.jpg?w=800&h=-1&s=1"class="card-img-top" alt="Cheesecake"></a>
           <div class="card-body">
             <h5 class="card-title">Nutella</h5>
             <p class="card-text">Suave, cremoso y con el toque del chocolate. Un favorito de todos.</p>
@@ -364,7 +365,7 @@ footer {
       </div>
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/1d/0c/8f/pensabas-que-no-podias.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Cupcakes">
+          <a href="<?php echo e(route('categorias.producto', 2)); ?>"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/1d/0c/8f/pensabas-que-no-podias.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Cupcakes"></a>
           <div class="card-body">
             <h5 class="card-title">Pimenton & aji rocoto</h5>
             <p class="card-text">Una mezcla increible entre dulce y picante.</p>
@@ -373,7 +374,7 @@ footer {
       </div>
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/0e/d5/06/los-productos-mas-frescos.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Brownie">
+          <a href=""><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/0e/d5/06/los-productos-mas-frescos.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Brownie"></a>
           <div class="card-body">
             <h5 class="card-title">Postre de maracuya</h5>
             <p class="card-text">Intenso, húmedo y refrescante.</p>
@@ -439,9 +440,9 @@ footer {
       <!-- Imagen a la derecha -->
       <div class="col-lg-6 animate__animated">
         <div class="image-wrapper position-relative hover-scale">
-          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/ae/0a/1e/nada-mejor-que-un-buen.jpg?w=800&h=-1&s=1"
+          <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/27/ae/0a/1e/nada-mejor-que-un-buen.jpg?w=800&h=-1&s=1" 
                alt="Postres artesanales"
-               class="img-fluid rounded-4 shadow-lg">
+               class="img-fluid rounded shadow-lg">
           <div class="image-overlay">
             <span class="text-white fs-4 fw-bold">¡Endulza tu día!</span>
           </div>
@@ -483,12 +484,14 @@ footer {
             frameborder="0" class="mapa1"></iframe>
     </div>
 </section>
-   <footer>
+</div> <!-- Esta cierra el último .container -->
+</div>
+<footer style="width: 100%;">
     <div class="footer-content" id="contacto">
         <div class="footer-section">
             <h3>Contacto</h3>
             <p><i class="fa fa-envelope"></i> hola@dulcecontigo.com</p>
-           <a href="https://api.whatsapp.com/send?phone=573246283231&text=Hola%20%F0%9F%91%8B%20Miguelucho" target="_blank"><i class="fab fa-whatsapp"></i> whatsapp</a>
+            <a href="https://api.whatsapp.com/send?phone=573246283231&text=Hola%20%F0%9F%91%8B%20Miguelucho" target="_blank"><i class="fab fa-whatsapp"></i> whatsapp</a>
         </div>
         <div class="footer-section">
             <h3>Síguenos</h3>
@@ -498,18 +501,17 @@ footer {
         </div>
         <div class="footer-section">
             <h3>Información</h3>
-              <a href="https://surl.li/vnucdw" target="_blank"><i class="far fa-handshake"></i> Trabaja con nosotros</a>
+            <a href="https://surl.li/vnucdw" target="_blank"><i class="far fa-handshake"></i> Trabaja con nosotros</a>
             <p><i class="fas fa-clock"></i> Lunes a Viernes: 11:00 AM - 7:00 PM </p>
             <p><i class="fas fa-clock"></i> Sábado, Domingo y festivos: 11:00 AM - 8:30 PM</p>
-    <a href="https://drive.google.com/file/d/1VUjYkU_C-3xWxrIldJVCH6PQ7ztVPoCK/view" target="_blank"><i class="fab 	fa fa-clone"></i> Politica y tratamiento de datos</a>
-
-
+            <a href="https://drive.google.com/file/d/1VUjYkU_C-3xWxrIldJVCH6PQ7ztVPoCK/view" target="_blank"><i class="fab fa fa-clone"></i> Política y tratamiento de datos</a>
         </div>
     </div>
     <div class="footer-bottom">
         &copy; 2025. Todos los derechos reservados.
     </div>
 </footer>
+
 
 </div>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
