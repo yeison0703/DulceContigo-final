@@ -48,7 +48,7 @@
             </div>
             <div id="qrPagoDiv" class="text-center mb-2" style="display:none;">
               <img src="/imagenes/QR.jpg" alt="QR de cuenta de ahorros" style="max-width:180px; width:100%; border-radius:1rem; border:2px solid #e9ecef; background:#fff; padding:8px;">
-              <div style="font-size:0.95rem; color:#15401b; margin-top:0.5rem;">Escanea este QR para pagar a la cuenta de ahorros o envialo a esta cuenta de ahorros: 91282724605</div>
+              <div style="font-size:0.95rem; color:#15401b; margin-top:0.5rem;">Escanea este QR para pagar a la cuenta de ahorros</div>
             </div>
           </div>
           <div class="mb-3">
