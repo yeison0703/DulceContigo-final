@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- Font Awesome para el icono del ojo -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     body {
         background: #eefaf3;
@@ -75,6 +77,20 @@
         color: #15401b;
         text-decoration: underline;
     }
+    /* Estilos para el icono del ojo */
+    .password-wrapper {
+        position: relative;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #15401b;
+        z-index: 2;
+        font-size: 1.1em;
+    }
 </style>
 <div class="login-container">
     <div class="login-card card">
@@ -96,8 +112,11 @@
 
                 <div class="mb-3">
                     <label for="password" class="form-label">{{ __('Password') }}</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                        name="password" required autocomplete="current-password">
+                    <div class="password-wrapper">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                            name="password" required autocomplete="current-password">
+                        <span toggle="#password" class="fa fa-eye toggle-password"></span>
+                    </div>
                     @error('password')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{ $message }}</strong>

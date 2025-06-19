@@ -1,6 +1,8 @@
 <?php $__env->startSection('content'); ?>
 <!-- SweetAlert CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Font Awesome para el icono del ojo -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     .register-container {
         min-height: 80vh;
@@ -37,7 +39,6 @@
         color: #15401b;
         font-weight: 600;
     }
-    /* Quitar borde azul y personalizar input como el login */
     .form-control:focus {
         border-color: #15401b;
         box-shadow: none;
@@ -46,6 +47,28 @@
         border-radius: 10px;
         border: 1px solid #ced4da;
         box-shadow: none;
+    }
+    /* Estilos para el icono del ojo dentro del input */
+    .password-wrapper {
+        position: relative;
+    }
+    .password-wrapper .form-control {
+        padding-right: 2.5rem;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #15401b;
+        z-index: 2;
+        font-size: 1.2em;
+        background: transparent;
+        border: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
     }
 </style>
 
@@ -119,7 +142,8 @@ unset($__errorArgs, $__bag); ?>
 
                 <div class="mb-3">
                     <label for="password" class="form-label"><?php echo e(__('Contraseña')); ?></label>
-                    <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
+                    <div class="password-wrapper">
+                        <input id="password" type="password" class="form-control <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -127,7 +151,9 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                        name="password" required autocomplete="new-password">
+                            name="password" required autocomplete="new-password">
+                        <span class="fa fa-eye toggle-password" onclick="togglePassword('password', this)"></span>
+                    </div>
                     <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -144,8 +170,11 @@ unset($__errorArgs, $__bag); ?>
 
                 <div class="mb-3">
                     <label for="password-confirm" class="form-label"><?php echo e(__('Confirmar contraseña')); ?></label>
-                    <input id="password-confirm" type="password" class="form-control"
-                        name="password_confirmation" required autocomplete="new-password">
+                    <div class="password-wrapper">
+                        <input id="password-confirm" type="password" class="form-control"
+                            name="password_confirmation" required autocomplete="new-password">
+                        <span class="fa fa-eye toggle-password" onclick="togglePassword('password-confirm', this)"></span>
+                    </div>
                 </div>
 
                 <div class="d-grid gap-2 mb-0">
@@ -158,6 +187,21 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 </div>
+
+<script>
+function togglePassword(inputId, el) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        el.classList.remove('fa-eye');
+        el.classList.add('fa-eye-slash');
+    } else {
+        input.type = "password";
+        el.classList.remove('fa-eye-slash');
+        el.classList.add('fa-eye');
+    }
+}
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\Yeison\Desktop\DulceContigo-final\resources\views/auth/register.blade.php ENDPATH**/ ?>

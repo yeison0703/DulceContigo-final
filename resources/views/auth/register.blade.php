@@ -3,6 +3,8 @@
 @section('content')
 <!-- SweetAlert CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Font Awesome para el icono del ojo -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     .register-container {
         min-height: 80vh;
@@ -39,7 +41,6 @@
         color: #15401b;
         font-weight: 600;
     }
-    /* Quitar borde azul y personalizar input como el login */
     .form-control:focus {
         border-color: #15401b;
         box-shadow: none;
@@ -48,6 +49,28 @@
         border-radius: 10px;
         border: 1px solid #ced4da;
         box-shadow: none;
+    }
+    /* Estilos para el icono del ojo dentro del input */
+    .password-wrapper {
+        position: relative;
+    }
+    .password-wrapper .form-control {
+        padding-right: 2.5rem;
+    }
+    .toggle-password {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #15401b;
+        z-index: 2;
+        font-size: 1.2em;
+        background: transparent;
+        border: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
     }
 </style>
 
@@ -93,8 +116,11 @@
 
                 <div class="mb-3">
                     <label for="password" class="form-label">{{ __('Contraseña') }}</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                        name="password" required autocomplete="new-password">
+                    <div class="password-wrapper">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
+                            name="password" required autocomplete="new-password">
+                        <span class="fa fa-eye toggle-password" onclick="togglePassword('password', this)"></span>
+                    </div>
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -104,8 +130,11 @@
 
                 <div class="mb-3">
                     <label for="password-confirm" class="form-label">{{ __('Confirmar contraseña') }}</label>
-                    <input id="password-confirm" type="password" class="form-control"
-                        name="password_confirmation" required autocomplete="new-password">
+                    <div class="password-wrapper">
+                        <input id="password-confirm" type="password" class="form-control"
+                            name="password_confirmation" required autocomplete="new-password">
+                        <span class="fa fa-eye toggle-password" onclick="togglePassword('password-confirm', this)"></span>
+                    </div>
                 </div>
 
                 <div class="d-grid gap-2 mb-0">
@@ -117,4 +146,19 @@
         </div>
     </div>
 </div>
+
+<script>
+function togglePassword(inputId, el) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        el.classList.remove('fa-eye');
+        el.classList.add('fa-eye-slash');
+    } else {
+        input.type = "password";
+        el.classList.remove('fa-eye-slash');
+        el.classList.add('fa-eye');
+    }
+}
+</script>
 @endsection
