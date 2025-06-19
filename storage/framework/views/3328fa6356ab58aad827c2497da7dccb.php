@@ -374,7 +374,7 @@ footer {
       </div>
       <div class="col-md-4 mb-4">
         <div class="card h-100 shadow-sm">
-          <a href=""><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/0e/d5/06/los-productos-mas-frescos.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Brownie"></a>
+          <a href="<?php echo e(route('categorias.producto', 1)); ?>"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/0e/d5/06/los-productos-mas-frescos.jpg?w=800&h=-1&s=1" class="card-img-top" alt="Brownie"></a>
           <div class="card-body">
             <h5 class="card-title">Postre de maracuya</h5>
             <p class="card-text">Intenso, húmedo y refrescante.</p>
